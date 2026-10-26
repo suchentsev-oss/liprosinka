@@ -1,0 +1,20 @@
+[
+  {
+    "id": 1,
+    "name": "Иван",
+    "story": "Люблю мандарины и запах хвои.",
+    "photo": "https://via.placeholder.com/150?text=Ivan"
+  },
+  {
+    "id": 2,
+    "name": "Мария",
+    "story": "Пеку имбирные пряники каждый год.",
+    "photo": "https://via.placeholder.com/150?text=Maria"
+  },
+  {
+    "id": 3,
+    "name": "Алексей",
+    "story": "Смотрю «Иронию судьбы» 31 декабря.",
+    "photo": "https://via.placeholder.com/150?text=Alex"
+  }
+]
