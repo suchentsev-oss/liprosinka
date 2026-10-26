@@ -7,33 +7,50 @@
   <style>
     body { font-family: Arial, sans-serif; max-width: 800px; margin: 40px auto; padding: 0 20px; }
     h1 { color: #d32f2f; }
-    .story-card { border: 1px solid #ddd; padding: 15px; margin-bottom: 20px; border-radius: 8px; }
-    .story-card img { width: 100px; height: 100px; object-fit: cover; border-radius: 50%; float: left; margin-right: 15px; }
-    .story-card h3 { margin-top: 0; }
+    .story-card { border: 1px solid #ddd; padding: 15px; margin-bottom: 20px; border-radius: 8px; display: flex; align-items: center; gap: 15px; }
+    .story-card img { width: 100px; height: 100px; object-fit: cover; border-radius: 50%; flex-shrink: 0; }
+    .story-card h3 { margin: 0 0 5px 0; color: #333; }
+    .story-card p { margin: 0; color: #555; }
+    #loading { text-align: center; color: #777; margin-top: 40px; }
+    #error { color: #d32f2f; text-align: center; margin-top: 40px; }
   </style>
 </head>
 <body>
   <h1>Новый год вместе с Росинкой 🎄</h1>
   <p>Истории наших друзей и любимые новогодние традиции.</p>
   <div id="stories"></div>
+  <div id="loading">Загрузка историй...</div>
+  <div id="error"></div>
 
   <script>
+    const container = document.getElementById('stories');
+    const loading = document.getElementById('loading');
+    const errorEl = document.getElementById('error');
+
     fetch('data/tree.json')
-      .then(res => res.json())
+      .then(res => {
+        if (!res.ok) throw new Error('Ошибка сети: ' + res.status);
+        return res.json();
+      })
       .then(data => {
-        const container = document.getElementById('stories');
+        loading.style.display = 'none';
         data.forEach(item => {
           const card = document.createElement('div');
           card.className = 'story-card';
           card.innerHTML = `
             <img src="${item.photo}" alt="${item.name}" />
-            <h3>\${item.name}</h3>
-            <p>\${item.story}</p>
+            <div>
+              <h3>\${item.name}</h3>
+              <p>\${item.story}</p>
+            </div>
           `;
           container.appendChild(card);
         });
       })
-      .catch(err => console.error('Ошибка загрузки данных:', err));
+      .catch(err => {
+        loading.style.display = 'none';
+        errorEl.textContent = 'Не удалось загрузить истории: ' + err.message;
+      });
   </script>
 </body>
 </html>
